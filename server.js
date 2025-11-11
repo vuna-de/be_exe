@@ -144,7 +144,7 @@ app.use((err, req, res, next) => {
 });
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/gym-manager')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://nguyenanhvuqb_db_user:mVrlV9ZEU3rwMjlb@cluster0.ty0y5si.mongodb.net/')
   .then(() => {
     console.log('✅ Kết nối MongoDB thành công');
   })
