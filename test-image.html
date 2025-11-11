@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Image Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .image-test {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        .image-test img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test Image Display</h1>
+        <p>Testing if images from <code>/uploads/meals/</code> can be displayed properly.</p>
+        
+        <div class="image-test">
+            <h3>Test 1: Direct Image URL</h3>
+            <p>URL: <code>http://localhost:5000/uploads/meals/meal_1759609110952-726539962.png</code></p>
+            <img 
+                src="http://localhost:5000/uploads/meals/meal_1759609110952-726539962.png" 
+                alt="Test meal image"
+                onload="showStatus('success', 'Image loaded successfully!')"
+                onerror="showStatus('error', 'Failed to load image. Check console for errors.')"
+            />
+        </div>
+
+        <div class="image-test">
+            <h3>Test 2: Avatar Images</h3>
+            <p>Testing avatar images as well:</p>
+            <img 
+                src="http://localhost:5000/uploads/avatars/68cb03496792a84f97f4939e_1758143772720-80774670.png" 
+                alt="Test avatar"
+                style="width: 100px; height: 100px; object-fit: cover;"
+                onload="showStatus('success', 'Avatar loaded successfully!')"
+                onerror="showStatus('error', 'Failed to load avatar.')"
+            />
+        </div>
+
+        <div id="status-container"></div>
+    </div>
+
+    <script>
+        function showStatus(type, message) {
+            const container = document.getElementById('status-container');
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status ${type}`;
+            statusDiv.textContent = message;
+            container.appendChild(statusDiv);
+        }
+
+        // Test CORS
+        fetch('http://localhost:5000/uploads/meals/meal_1759609110952-726539962.png')
+            .then(response => {
+                if (response.ok) {
+                    showStatus('success', 'CORS test passed - Image accessible via fetch');
+                } else {
+                    showStatus('error', `CORS test failed - Status: ${response.status}`);
+                }
+            })
+            .catch(error => {
+                showStatus('error', `CORS test failed - Error: ${error.message}`);
+            });
+    </script>
+</body>
+</html>
+
